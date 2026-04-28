@@ -1,4 +1,4 @@
-const CACHE_NAME = 'udabol-exam-v2';
+const CACHE_NAME = 'udabol-exam-v3';
 const urlsToCache = [
   './',
   './index.html',
@@ -19,25 +19,26 @@ self.addEventListener('install', event => {
   );
 });
 
-// Interceptar peticiones: Devolver desde caché si no hay internet, y cachear nuevos recursos (como las fuentes)
+// Interceptar peticiones: Estrategia "Network First" (Primero Red, luego Caché)
+// De esta forma siempre busca la última versión, sin tener que cambiar el CACHE_NAME manualmente.
 self.addEventListener('fetch', event => {
+  if (event.request.method !== 'GET') return;
+
   event.respondWith(
-    caches.match(event.request)
-      .then(response => {
-        if (response) {
-          return response; // Devuelve desde caché
+    fetch(event.request)
+      .then(networkResponse => {
+        // Si hay internet y la respuesta es válida, actualizamos la caché
+        if (networkResponse && networkResponse.status === 200 && (networkResponse.type === 'basic' || event.request.url.includes('fonts.'))) {
+          const responseToCache = networkResponse.clone();
+          caches.open(CACHE_NAME).then(cache => {
+            cache.put(event.request, responseToCache);
+          });
         }
-        return fetch(event.request).then(networkResponse => {
-          // Si es una petición válida, guardarla en caché para la próxima vez (ej: archivos .woff2 de Google Fonts)
-          if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic' || event.request.url.includes('fonts.gstatic.com')) {
-            const responseToCache = networkResponse.clone();
-            caches.open(CACHE_NAME)
-              .then(cache => {
-                cache.put(event.request, responseToCache);
-              });
-          }
-          return networkResponse;
-        });
+        return networkResponse;
+      })
+      .catch(() => {
+        // Si no hay internet (offline), devolvemos la versión guardada en caché
+        return caches.match(event.request);
       })
   );
 });

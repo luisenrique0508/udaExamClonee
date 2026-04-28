@@ -116,8 +116,8 @@
     <!-- DERECHA: Timer + Info -->
     <aside class="col-right">
         <div class="white-box timer-card">
-            <div class="box-header">
-                <span class="material-icons box-header-icon">timer</span>
+            <div class="box-header" style="justify-content: center;">
+                <span class="material-icons box-header-icon">error_outline</span>
                 TIEMPO RESTANTE
             </div>
             <div class="timer-block">
@@ -136,15 +136,15 @@
             </div>
             <div class="timer-btn-row">
                 <button id="term-btn" class="btn-term" onclick="finishAttempt()">
-                    <span class="material-icons" style="font-size:16px;vertical-align:middle;">check_circle</span>
+                    <span class="material-icons" style="font-size:16px;vertical-align:middle;">check</span>
                     Terminar intento
                 </button>
             </div>
         </div>
 
         <div class="white-box info-card">
-            <div class="box-header">
-                <span class="material-icons box-header-icon">info_outline</span>
+            <div class="box-header" style="justify-content: center;">
+                <span class="material-icons box-header-icon">error_outline</span>
                 IMPORTANTE
             </div>
             <ol class="info-list">
@@ -395,7 +395,7 @@ function loadQ(idx) {
             </label>`).join('')}
         </div>`;
 
-    $('q-footer-nro').textContent = `Pregunta nro. ${q.id}`;
+    $('q-footer-nro').textContent = `Pregunta nro. 1647177${String(q.id).padStart(2, '0')}`;
     refreshNav();
 
     /* habilitar/deshabilitar Anterior */

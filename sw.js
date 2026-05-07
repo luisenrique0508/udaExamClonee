@@ -1,7 +1,8 @@
-const CACHE_NAME = 'udabol-exam-v3';
+const CACHE_NAME = 'udabol-exam-v6';
 const urlsToCache = [
   './',
   './index.html',
+  './examen.html',
   './stile.css',
   './udabol-logo.png',
   'https://fonts.googleapis.com/icon?family=Material+Icons',

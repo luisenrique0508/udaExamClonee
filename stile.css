@@ -13,10 +13,110 @@ body {
 }
 
 /* ════════════════════════════════════
+   START SCREEN — Réplica UDABOL
+════════════════════════════════════ */
+#start-screen {
+    background: #1a1a1a;
+    min-height: calc(100vh - 90px);
+}
+.start-body {
+    padding: 14px 16px;
+}
+.start-card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    overflow: hidden;
+}
+.start-card-header {
+    padding: 10px 14px;
+    font-size: 0.95em;
+    font-weight: 700;
+    color: #333;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.start-card-content {
+    padding: 14px;
+}
+/* Aviso rojo IMPORTANTE */
+.start-important {
+    background: #f8d7da;
+    border: 1px solid #f5c6cb;
+    border-radius: 4px;
+    padding: 12px 14px;
+    font-size: 0.85em;
+    color: #721c24;
+    line-height: 1.5;
+    margin-bottom: 14px;
+}
+.start-important strong {
+    color: #c0392b;
+}
+/* Horario */
+.start-horario {
+    font-size: 0.84em;
+    color: #555;
+    line-height: 1.55;
+    margin-bottom: 14px;
+}
+.start-horario strong {
+    color: #333;
+}
+/* Tabla de exámenes */
+.start-table-wrap {
+    overflow-x: auto;
+}
+.start-exam-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.82em;
+}
+.start-exam-table th {
+    background: #f5f5f5;
+    border: 1px solid #ddd;
+    padding: 7px 8px;
+    text-align: left;
+    font-weight: 700;
+    color: #555;
+    font-size: 0.78em;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+}
+.start-exam-table td {
+    border: 1px solid #ddd;
+    padding: 8px 8px;
+    color: #444;
+    vertical-align: top;
+    line-height: 1.45;
+}
+/* Botón Comenzar en la tabla */
+.btn-comenzar {
+    background: #79ba01;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    padding: 6px 12px;
+    font-size: 0.88em;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+.btn-comenzar:hover {
+    background: #6aa500;
+}
+
+/* ════════════════════════════════════
    TOP BAR
 ════════════════════════════════════ */
 .topbar {
-    background-color: #1d4620;
+    background-color: #004231;
     color: #fff;
     display: flex;
     justify-content: space-between;
@@ -28,7 +128,7 @@ body {
 .topbar-right { display: flex; align-items: center; }
 
 .logo-box {
-    background: #fff;
+    background: transparent;
     border-radius: 3px;
     padding: 3px 8px;
     display: flex;
@@ -73,18 +173,18 @@ body {
    ALERT BAR
 ════════════════════════════════════ */
 .alertbar {
-    background-color: #ffc107;
-    border-bottom: 1px solid #ffc107;
+    background-color: #fcbb00;
+    border-bottom: 1px solid #fcbb00;
     padding: 5px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     font-size: 0.79em;
-    color: #856404;
+    color: #5a4300;
     flex-wrap: wrap;
     gap: 6px;
 }
-.alertbar a { color: #856404; font-weight: 700; text-decoration: none; }
+.alertbar a { color: #5a4300; font-weight: 700; text-decoration: none; }
 .alertbar-lang { cursor: pointer; font-weight: 700; color: #555; white-space: nowrap; }
 .alertbar-icon { font-size: 14px !important; vertical-align: middle; margin-right: 3px; }
 
@@ -110,8 +210,8 @@ body {
     align-items: center;
     gap: 3px;
 }
-.crumb-green  { background: #5cb85c; color: #fff; }
-.crumb-active { background: #dff0d8; color: #3c763d; border: 1px solid #d6e9c6; }
+.crumb-green  { background: #79ba01; color: #fff; }
+.crumb-active { background: #e8f5e1; color: #004231; border: 1px solid #c5e1a5; }
 .crumb-sep    { color: #bbb; font-size: 18px !important; vertical-align: middle; }
 .crumb-icon   { font-size: 15px !important; }
 
@@ -183,13 +283,13 @@ body {
 
 /* Activo (pregunta actual) */
 .qbtn.qbtn-active {
-    border: 2px solid #5cb85c;
-    color: #3c763d;
+    border: 2px solid #79ba01;
+    color: #004231;
     font-weight: 700;
 }
 
 /* Respondida → verde sólido */
-.qbtn.qbtn-done                    { background: #5cb85c; color: #fff; border-color: #449d44; }
+.qbtn.qbtn-done                    { background: #79ba01; color: #fff; border-color: #6aa500; }
 .qbtn.qbtn-done.qbtn-active        { outline-color: #fff; }
 
 /* Leyenda */
@@ -203,7 +303,7 @@ body {
 }
 .legend-item { display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 0.75em; color: #666; }
 .leg-swatch  { width: 26px; height: 26px; border: 1px solid #ccc; flex-shrink: 0; display: flex; align-items: center; justify-content: center; box-sizing: border-box; }
-.swatch-green { background: #5cb85c; border-color: #449d44; }
+.swatch-green { background: #79ba01; border-color: #6aa500; }
 .swatch-empty { background: #fff; }
 
 /* ════════════════════════════════════
@@ -238,7 +338,7 @@ body {
 .mini-spinner {
     width: 30px; height: 30px;
     border: 4px solid #ddd;
-    border-top-color: #5cb85c;
+    border-top-color: #79ba01;
     border-radius: 50%;
     animation: spin 0.8s linear infinite;
 }
@@ -301,8 +401,8 @@ body {
 
 .btn-prev {
     background: #fff;
-    color: #5cb85c;
-    border: 1px solid #5cb85c;
+    color: #79ba01;
+    border: 1px solid #79ba01;
     border-radius: 4px;
     padding: 8px 22px;
     font-size: 0.9em;
@@ -311,9 +411,9 @@ body {
 }
 .btn-prev:disabled { color: #ccc; border-color: #ddd; cursor: not-allowed; }
 
-/* Siguiente — verde exacto de la imagen, centrado, pequeño */
+/* Siguiente — verde exacto, centrado, pequeño */
 .btn-next {
-    background: #7ec017;
+    background: #79ba01;
     color: #fff;
     border: none;
     border-radius: 3px;
@@ -480,9 +580,9 @@ body {
     animation: mIn .22s ease;
 }
 @keyframes mIn { from{transform:scale(.9);opacity:0} to{transform:scale(1);opacity:1} }
-.modal-header { background: #1d4620; color: #fff; padding: 16px 20px; font-size: 1.05em; font-weight: 700; display:flex; align-items:center; gap:8px; }
+.modal-header { background: #004231; color: #fff; padding: 16px 20px; font-size: 1.05em; font-weight: 700; display:flex; align-items:center; gap:8px; }
 .modal-body   { padding: 20px; display: flex; flex-direction: column; gap: 10px; font-size: .92em; color: #444; }
-.modal-thanks { background: #dff0d8; border: 1px solid #d6e9c6; color: #3c763d;
+.modal-thanks { background: #e8f5e1; border: 1px solid #c5e1a5; color: #004231;
                 border-radius: 4px; padding: 10px 14px; font-weight: 700; text-align: center; margin-top: 6px; }
 .modal-footer { padding: 14px 20px; border-top: 1px solid #eee; display: flex; justify-content: flex-end; }
 
@@ -576,7 +676,7 @@ body {
         padding: 0 !important;
         margin: 0 !important;
     }
-    .qbtn.qbtn-active { font-weight: normal; border: 1px solid #5cb85c; }
+    .qbtn.qbtn-active { font-weight: normal; border: 1px solid #79ba01; }
 
     /* ── Leyenda ── */
     .legend-row {
@@ -587,7 +687,7 @@ body {
     }
     .legend-item { display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 0.75em; color: #666; }
 .leg-swatch  { width: 28px; height: 28px; border: 1px solid #ccc; flex-shrink: 0; display: flex; align-items: center; justify-content: center; box-sizing: border-box; }
-.swatch-green { background: #5cb85c; border-color: #449d44; }
+.swatch-green { background: #79ba01; border-color: #6aa500; }
 .swatch-empty { background: #fff; }
 
     .exam-meta {
@@ -622,7 +722,7 @@ body {
         padding: 10px 18px;
         font-size: 1em;
         justify-content: center;
-        background: #7ec017;
+        background: #79ba01;
     }
     .btn-prev {
         display: none; /* En la imagen no se ve botón anterior, simplificamos */
@@ -634,4 +734,15 @@ body {
 
     /* ── Toast ── */
     .toast { font-size: 0.79em; padding: 8px 14px; bottom: 10px; }
+
+    /* ── Start screen mobile ── */
+    #start-screen { background: #1a1a1a; }
+    .start-body { padding: 10px; }
+    .start-card-header { font-size: 0.9em; }
+    .start-card-content { padding: 10px; }
+    .start-important { font-size: 0.82em; }
+    .start-horario { font-size: 0.8em; }
+    .start-exam-table { font-size: 0.75em; }
+    .start-exam-table td,
+    .start-exam-table th { padding: 6px 5px; }
 }

@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Examen Primer Parcial – Atención Primaria | UDABOL</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="stile.css">
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+    <div class="topbar-left">
+        <div class="logo-box">
+            <img src="udabol-logo.png" alt="UDABOL" class="logo-img">
+        </div>
+        <span class="topbar-center-title">CARPETA PEDAGÓGICA DIGITAL</span>
+    </div>
+    <div class="topbar-right">
+        <div class="topbar-userblock">
+            <span class="topbar-username" id="topbar-username">LUIS ENRIQUE LEDEZMA LOPEZ</span>
+            <button class="btn-cerrar-sesion" onclick="finishAttempt()">
+                <span class="material-icons" style="font-size:13px;vertical-align:middle;">power_settings_new</span>
+                CERRAR SESION
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- BARRA AMARILLA -->
+<div class="alertbar">
+    <span>
+        <span class="material-icons alertbar-icon">mail_outline</span>
+        Consultas de carpeta pedagógica:
+        <a href="mailto:virtual@udabol.edu.bo">virtual@udabol.edu.bo</a>
+    </span>
+    <span class="alertbar-lang">
+        <span class="material-icons" style="font-size:14px;vertical-align:middle;">language</span>
+        Seleccionar idioma
+        <span class="material-icons" style="font-size:14px;vertical-align:middle;">arrow_drop_down</span>
+    </span>
+</div>
+
+
+<!-- ══════ EXAM SCREEN ══════ -->
+<div id="exam-screen">
+
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb-bar">
+    <span class="crumb crumb-green">
+        <span class="material-icons crumb-icon">home</span> Materias
+    </span>
+    <span class="material-icons crumb-sep">chevron_right</span>
+    <span class="crumb crumb-green">
+        <span class="material-icons crumb-icon">assignment</span> Exámenes
+    </span>
+    <span class="material-icons crumb-sep">chevron_right</span>
+    <span class="crumb crumb-active">
+        <span class="material-icons crumb-icon">description</span>
+        1P-1-2026: Examen Primer Parcial – Atención Primaria en Salud
+    </span>
+</div>
+
+<!-- GRID 3 COLUMNAS -->
+<div class="page-grid">
+    <aside class="col-left">
+        <div class="white-box">
+            <div class="box-header">
+                <span class="material-icons box-header-icon">grid_view</span> PREGUNTAS
+            </div>
+            <div class="qnav-grid" id="qnav-grid"></div>
+            <div class="legend-row">
+                <div class="legend-item">
+                    <div class="leg-swatch swatch-green"></div><span>Respondidas</span>
+                </div>
+                <div class="legend-item">
+                    <div class="leg-swatch swatch-empty"></div><span>Sin responder</span>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <main class="col-center">
+        <div class="white-box center-card">
+            <div class="exam-meta">
+                <div class="exam-meta-title">1P-1-2026-10119462: Examen Primer Parcial 1-2026</div>
+                <div class="exam-meta-sub">MED-APS-2026: Atención Primaria en Salud – NM – A</div>
+            </div>
+            <div class="question-body" id="question-body">
+                <div class="loading-init"><div class="mini-spinner"></div><p>Cargando examen…</p></div>
+            </div>
+            <div class="question-actions">
+                <button id="prev-btn" class="btn-prev" onclick="goBack()" disabled>
+                    <span class="material-icons" style="font-size:16px;vertical-align:middle;">chevron_left</span> Anterior
+                </button>
+                <button id="next-btn" class="btn-next" onclick="saveAndNext()" disabled>
+                    <span class="material-icons" style="font-size:16px;vertical-align:middle;">check</span> Siguiente
+                </button>
+            </div>
+            <div class="question-footer"><span id="q-footer-nro">Pregunta nro. —</span></div>
+        </div>
+    </main>
+
+    <aside class="col-right">
+        <div class="white-box timer-card">
+            <div class="box-header" style="justify-content: center;">
+                <span class="material-icons box-header-icon">error_outline</span> TIEMPO RESTANTE
+            </div>
+            <div class="timer-block">
+                <div class="timer-labels"><span>Minutos</span><span></span><span>Segundos</span></div>
+                <div class="timer-digits" id="timer-digits">
+                    <div class="digit" id="d0">4</div>
+                    <div class="digit" id="d1">0</div>
+                    <div class="t-sep">:</div>
+                    <div class="digit" id="d2">0</div>
+                    <div class="digit" id="d3">0</div>
+                </div>
+            </div>
+            <div class="timer-btn-row">
+                <button id="term-btn" class="btn-term" onclick="finishAttempt()">
+                    <span class="material-icons" style="font-size:16px;vertical-align:middle;">check</span> Terminar intento
+                </button>
+            </div>
+        </div>
+        <div class="white-box info-card">
+            <div class="box-header" style="justify-content: center;">
+                <span class="material-icons box-header-icon">error_outline</span> IMPORTANTE
+            </div>
+            <ol class="info-list">
+                <li>Todas las respuestas deben ser guardadas. Las preguntas ya respondidas se marcan de color verde.</li>
+                <li>Al terminar de contestar todas las preguntas debe presionar el botón 'Terminar intento'.</li>
+                <li>Una vez termine el intento se mostrará la calificación obtenida.</li>
+            </ol>
+        </div>
+    </aside>
+</div>
+</div><!-- /exam-screen -->
+
+<!-- STATUS / OVERLAY / MODAL -->
+<div id="status-toast" class="toast hidden"></div>
+<div id="page-overlay" class="page-overlay hidden"><div class="overlay-spinner"></div></div>
+<div id="finish-modal" class="modal-bg hidden">
+    <div class="modal-box">
+        <div class="modal-header">
+            <span class="material-icons" style="vertical-align:middle;margin-right:6px;">school</span> Intento Finalizado
+        </div>
+        <div class="modal-body">
+            <p>Respondidas: <strong id="m-ans">—</strong> / 20</p>
+            <p class="modal-thanks">¡Intento Finalizado!</p>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-next" onclick="document.getElementById('finish-modal').classList.add('hidden')">
+                <span class="material-icons" style="font-size:16px;vertical-align:middle;">close</span> Cerrar
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+/* ════════════════════════════════════════════════════
+   BANCO DE PREGUNTAS — 20 preguntas de Atención Primaria
+   Embebidas directamente, sin depender del servidor
+════════════════════════════════════════════════════ */
+const QUESTIONS = [
+    { id: 1, text: '¿Cuál es el nivel de atención médica en el que se resuelve entre el 75 y 85% de las necesidades de salud de la población?', options: { a: 'Nivel secundario de atención', b: 'Nivel terciario de atención', c: 'Nivel primario de atención (APS)', d: 'Medicina de urgencias y emergencias' } },
+    { id: 2, text: 'En la Atención Primaria de Salud, ¿cuál de los siguientes principios fue declarado en la Conferencia de Alma-Ata (1978)?', options: { a: 'La salud es un privilegio exclusivo de países desarrollados', b: 'La salud para todos en el año 2000 mediante la APS', c: 'La medicina especializada debe preceder a la atención básica', d: 'El acceso a la salud depende exclusivamente del ingreso económico' } },
+    { id: 3, text: 'Un paciente de 62 años presenta tos productiva de más de 3 semanas, pérdida de peso y sudoración nocturna. ¿Cuál es la primera sospecha diagnóstica en APS?', options: { a: 'Neumonía bacteriana adquirida en la comunidad', b: 'Asma bronquial severa', c: 'Tuberculosis pulmonar', d: 'Cáncer de pulmón en estadio IV' } },
+    { id: 4, text: '¿Cuál es la vacuna que se administra al recién nacido en las primeras 24 horas de vida, según el esquema de vacunación en Bolivia?', options: { a: 'Triple viral (SRP)', b: 'BCG y vacuna contra la hepatitis B', c: 'Pentavalente y antipolio oral', d: 'Antineumocócica y antirrotavirus' } },
+    { id: 5, text: 'Una madre trae a su niño de 3 años con fiebre de 38.8°C, tos y rinorrea de 4 días de evolución, sin dificultad respiratoria. ¿Cuál es el manejo más apropiado en APS?', options: { a: 'Internación y antibioticoterapia intravenosa inmediata', b: 'Solicitar tomografía de tórax urgente', c: 'Tratamiento sintomático, hidratación y control en 48 horas', d: 'Administración de corticoides inhalados de forma urgente' } },
+    { id: 6, text: '¿Cuál de los siguientes parámetros se utiliza para clasificar la desnutrición según la OMS en niños menores de 5 años?', options: { a: 'Índice de masa corporal (IMC) mayor a 30', b: 'Peso para la talla (P/T) con puntaje Z menor a -2', c: 'Circunferencia abdominal mayor al percentil 90', d: 'Hemoglobina glicosilada (HbA1c) mayor al 6.5%' } },
+    { id: 7, text: 'En el control prenatal, ¿cuántas consultas mínimas recomienda la OMS para un embarazo de bajo riesgo?', options: { a: '2 consultas (primer y tercer trimestre)', b: '4 consultas distribuidas a lo largo del embarazo', c: '8 o más contactos con el sistema de salud', d: '12 consultas mensuales desde el primer mes' } },
+    { id: 8, text: '¿Cuál es la definición de "cobertura de vacunación" en el contexto de la Atención Primaria de Salud?', options: { a: 'El porcentaje de vacunas vencidas eliminadas del stock', b: 'El número de dosis de vacunas almacenadas en el centro de salud', c: 'El porcentaje de personas de la población objetivo que recibieron las vacunas programadas', d: 'La temperatura de conservación adecuada de las vacunas en la cadena de frío' } },
+    { id: 9, text: 'Un paciente con diagnóstico de hipertensión arterial esencial (estadio 1) acude a consulta en el primer nivel. ¿Cuál es el tratamiento inicial recomendado?', options: { a: 'Digoxina más furosemida en dosis alta', b: 'Cambios en el estilo de vida durante 3 a 6 meses y seguimiento', c: 'Derivación inmediata a cardiología para inicio de tratamiento', d: 'Anticoagulación con warfarina y control semanal' } },
+    { id: 10, text: '¿Qué instrumento de tamizaje se utiliza en APS para detectar depresión en adultos de forma breve y validada?', options: { a: 'Escala de Apgar familiar', b: 'Test de Audit-C', c: 'Cuestionario PHQ-9 (Patient Health Questionnaire)', d: 'Escala de Braden para úlceras por presión' } },
+    { id: 11, text: 'En el modelo de atención familiar de APS, ¿cuál es el objetivo principal del "diagnóstico de salud familiar"?', options: { a: 'Identificar enfermedades raras en miembros de la familia', b: 'Determinar los problemas de salud, recursos y riesgos del grupo familiar para planificar intervenciones', c: 'Realizar cirugías ambulatorias en el domicilio del paciente', d: 'Sustituir la historia clínica individual por la historia colectiva' } },
+    { id: 12, text: '¿Cuál de las siguientes acciones corresponde a la prevención primaria en salud?', options: { a: 'Diagnóstico precoz de diabetes mediante tamizaje en adultos mayores', b: 'Rehabilitación de pacientes después de un accidente cerebrovascular', c: 'Vacunación, educación sanitaria y promoción de hábitos saludables', d: 'Tratamiento oportuno de la tuberculosis para evitar contagios' } },
+    { id: 13, text: 'Una paciente de 28 años embarazada a las 20 semanas presenta presión arterial de 150/100 mmHg en dos tomas con 6 horas de diferencia, sin proteinuria. ¿Cuál es el diagnóstico más probable?', options: { a: 'Hipertensión crónica preexistente', b: 'Preeclampsia con criterios de severidad', c: 'Hipertensión gestacional', d: 'Eclampsia inminente' } },
+    { id: 14, text: '¿Cuál es la diarrea que representa mayor riesgo de mortalidad en niños menores de 5 años según la OMS?', options: { a: 'Diarrea crónica con moco y sangre', b: 'Diarrea aguda con deshidratación grave', c: 'Diarrea persistente con flatulencia', d: 'Diarrea osmótica por intolerancia a la lactosa' } },
+    { id: 15, text: 'En el Programa de Control del Niño Sano, ¿qué evalúa la escala de Denver II?', options: { a: 'El estado nutricional mediante tablas de peso y talla', b: 'El desarrollo psicomotor en áreas personal-social, motora fina, lenguaje y motora gruesa', c: 'El riesgo cardiovascular en niños mayores de 10 años', d: 'La madurez pulmonar fetal antes del nacimiento' } },
+    { id: 16, text: 'Un hombre de 50 años con IMC de 31 kg/m², sin síntomas, consulta para chequeo. La glucemia en ayunas es de 118 mg/dL. ¿Cuál es la clasificación diagnóstica?', options: { a: 'Diabetes mellitus tipo 2 establecida', b: 'Hipoglucemia de ayuno', c: 'Glucemia en ayunas alterada (prediabetes)', d: 'Síndrome metabólico con hiperglucemia severa' } },
+    { id: 17, text: '¿Cuál es el método anticonceptivo de barrera más eficaz para la prevención simultánea de embarazo e infecciones de transmisión sexual (ITS)?', options: { a: 'Diafragma cervical con espermicida', b: 'Condón masculino de látex usado correctamente', c: 'Dispositivo intrauterino de cobre (DIU-T)', d: 'Método de lactancia materna exclusiva (MELA)' } },
+    { id: 18, text: '¿Cuál es la primera causa de morbimortalidad evitable en el mundo según la OMS, que el equipo de APS debe abordar con consejería?', options: { a: 'Consumo de alcohol en menores de edad', b: 'Tabaquismo y consumo de tabaco en todas sus formas', c: 'Sedentarismo y actividad física insuficiente', d: 'Consumo excesivo de azúcares refinados' } },
+    { id: 19, text: 'En el seguimiento de un paciente con diabetes mellitus tipo 2 en APS, ¿con qué frecuencia se recomienda solicitar la hemoglobina glicosilada (HbA1c)?', options: { a: 'Una vez al año, en el mes de enero', b: 'Cada 3 a 6 meses según el grado de control glucémico', c: 'Solo cuando el paciente refiere síntomas hiperglucémicos', d: 'Mensualmente junto con la glicemia en ayunas' } },
+    { id: 20, text: '¿Cuál es el criterio de la OMS para clasificar la anemia en mujeres adultas no embarazadas?', options: { a: 'Hemoglobina menor a 13 g/dL', b: 'Hemoglobina menor a 12 g/dL', c: 'Hematocrito menor al 45%', d: 'Ferritina sérica menor a 50 ng/mL' } }
+];
+
+/* ════════════════════════════════════════════════════
+   ESTADO DEL EXAMEN
+════════════════════════════════════════════════════ */
+const TOTAL       = QUESTIONS.length;
+const DURATION    = 40 * 60; // 40 minutos en segundos
+let qIndex        = 0;
+let answers       = {};
+let timerInterval = null;
+let timeLeft      = DURATION;
+let examStarted   = false;
+
+const $  = id => document.getElementById(id);
+const ov = s  => $('page-overlay').classList.toggle('hidden', !s);
+
+/* ── Persistencia con localStorage ── */
+const STORAGE_KEY = 'udabol_exam_state';
+
+function saveState() {
+    const state = {
+        examStarted: examStarted,
+        startTimestamp: localStorage.getItem('udabol_start_ts'),
+        qIndex: qIndex,
+        answers: answers
+    };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+}
+
+function loadState() {
+    try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return null;
+        return JSON.parse(raw);
+    } catch(e) { return null; }
+}
+
+function clearState() {
+    localStorage.removeItem(STORAGE_KEY);
+    localStorage.removeItem('udabol_start_ts');
+}
+
+/* ── Toast ── */
+function toast(msg, cls = 'info', ms = 3500) {
+    const el = $('status-toast');
+    el.textContent = msg;
+    el.className   = `toast ${cls}`;
+    el.classList.remove('hidden');
+    clearTimeout(el._t);
+    el._t = setTimeout(() => el.classList.add('hidden'), ms);
+}
+
+/* ── Timer ── */
+function renderTimer(t) {
+    if (t < 0) t = 0;
+    const m = String(Math.floor(t / 60)).padStart(2, '0');
+    const s = String(t % 60).padStart(2, '0');
+    ['d0','d1','d2','d3'].forEach((id, i) => $(id).textContent = (m + s)[i]);
+    $('timer-digits').classList.toggle('digits-warn', t <= 300);
+}
+
+function startTimer() {
+    if (timerInterval) return;
+    timerInterval = setInterval(() => {
+        // Calcular tiempo restante desde el timestamp de inicio
+        const startTs = parseInt(localStorage.getItem('udabol_start_ts'), 10);
+        const elapsed = Math.floor((Date.now() - startTs) / 1000);
+        timeLeft = Math.max(0, DURATION - elapsed);
+        renderTimer(timeLeft);
+        saveState();
+        if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            toast('¡Tiempo terminado!', 'warn', 8000);
+            finishAttempt(true);
+        }
+    }, 1000);
+}
+
+/* ── Navegación lateral ── */
+function buildNav() {
+    const grid = $('qnav-grid');
+    grid.innerHTML = '';
+    for (let i = 0; i < TOTAL; i++) {
+        const btn = document.createElement('button');
+        btn.id = `qb-${i}`;
+        btn.textContent = i + 1;
+        if (i === TOTAL - 1) {
+            btn.className = 'qbtn qbtn-link';
+            btn.title     = 'Ir a UDABOL';
+            btn.onclick   = () => window.open('https://virtual.udabol.edu.bo/carpetaverde/estudiante/examenes', '_blank');
+        } else {
+            btn.className = 'qbtn';
+            btn.onclick   = () => { recordCurrent(); loadQ(i); };
+        }
+        grid.appendChild(btn);
+    }
+    refreshNav();
+}
+
+function refreshNav() {
+    for (let i = 0; i < TOTAL; i++) {
+        const btn = $(`qb-${i}`);
+        if (!btn) continue;
+        btn.className = 'qbtn';
+        if (i === qIndex)       btn.classList.add('qbtn-active');
+        if (answers[i] != null) btn.classList.add('qbtn-done');
+    }
+}
+
+function recordCurrent() {
+    const sel = document.querySelector('input[name="opt"]:checked');
+    if (sel) { answers[qIndex] = sel.value; refreshNav(); saveState(); }
+}
+
+function loadQ(idx) {
+    if (idx < 0 || idx >= TOTAL) return;
+    qIndex = idx;
+    const q = QUESTIONS[idx], saved = answers[idx];
+    $('question-body').innerHTML = `
+        <p class="q-text">${q.text}</p>
+        <div class="options-list">
+            ${['a','b','c','d'].map(o => `
+            <label class="option-row" id="lb-${o}">
+                <input type="radio" name="opt" value="${o}" ${saved === o ? 'checked' : ''} onchange="onPick('${o}')">
+                ${q.options[o]}
+            </label>`).join('')}
+        </div>`;
+    $('q-footer-nro').textContent = `Pregunta nro. 1647177${String(q.id).padStart(2, '0')}`;
+    refreshNav();
+    $('prev-btn').disabled = idx === 0;
+    saveState();
+}
+
+function onPick(val) {
+    document.querySelectorAll('.option-row').forEach(l => l.classList.remove('option-selected'));
+    const lbl = $(`lb-${val}`);
+    if (lbl) lbl.classList.add('option-selected');
+    answers[qIndex] = val;
+    refreshNav();
+    saveState();
+}
+
+function goBack() { recordCurrent(); if (qIndex > 0) loadQ(qIndex - 1); }
+
+function saveAndNext() {
+    recordCurrent();
+    if (qIndex < TOTAL - 1) loadQ(qIndex + 1);
+    else toast('Última pregunta. Puedes terminar el intento.', 'info', 5000);
+}
+
+function finishAttempt(auto = false) {
+    if (!auto && !confirm('¿Estás seguro de que quieres terminar el intento?')) return;
+    clearInterval(timerInterval);
+    $('m-ans').textContent = Object.keys(answers).length;
+    $('finish-modal').classList.remove('hidden');
+    ['prev-btn','next-btn','term-btn'].forEach(id => $(id).disabled = true);
+    clearState();
+}
+
+/* ════════════════════════════════════════════════════
+   INICIO — carga directa del examen
+════════════════════════════════════════════════════ */
+window.addEventListener('DOMContentLoaded', () => {
+    // Si no hay timestamp de inicio, crear uno ahora
+    if (!localStorage.getItem('udabol_start_ts')) {
+        localStorage.setItem('udabol_start_ts', String(Date.now()));
+    }
+
+    // Restaurar estado previo si existe
+    const saved = loadState();
+    if (saved && saved.examStarted) {
+        answers = saved.answers || {};
+        qIndex  = saved.qIndex || 0;
+    }
+
+    // Calcular tiempo restante
+    const startTs = parseInt(localStorage.getItem('udabol_start_ts'), 10);
+    const elapsed = Math.floor((Date.now() - startTs) / 1000);
+    timeLeft = Math.max(0, DURATION - elapsed);
+    examStarted = true;
+
+    renderTimer(timeLeft);
+    buildNav();
+    loadQ(qIndex);
+    $('prev-btn').disabled = qIndex === 0;
+    $('next-btn').disabled = false;
+
+    if (timeLeft <= 0) {
+        toast('¡Tiempo terminado!', 'warn', 8000);
+        finishAttempt(true);
+    } else {
+        startTimer();
+        saveState();
+    }
+});
+
+/* ════════════════════════════════════════════════════
+   REGISTRO DEL SERVICE WORKER (Para funcionar Offline)
+════════════════════════════════════════════════════ */
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+            .then(r => console.log('SW registrado:', r.scope))
+            .catch(e => console.log('SW error:', e));
+    });
+}
+</script>
+</body>
+</html>

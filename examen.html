@@ -20,7 +20,7 @@
     </div>
     <div class="topbar-right">
         <div class="topbar-userblock">
-            <span class="topbar-username" id="topbar-username">LUIS ENRIQUE LEDEZMA LOPEZ</span>
+            <span class="topbar-username" id="topbar-username">ESTUDIANTE</span>
             <button class="btn-cerrar-sesion" onclick="finishAttempt()">
                 <span class="material-icons" style="font-size:13px;vertical-align:middle;">power_settings_new</span>
                 CERRAR SESION
@@ -339,12 +339,21 @@ function finishAttempt(auto = false) {
     $('finish-modal').classList.remove('hidden');
     ['prev-btn','next-btn','term-btn'].forEach(id => $(id).disabled = true);
     clearState();
+    // Limpiar sesión y volver al inicio
+    localStorage.removeItem('udabol_user_name');
+    localStorage.removeItem('udabol_exam_started');
 }
 
 /* ════════════════════════════════════════════════════
    INICIO — carga directa del examen
 ════════════════════════════════════════════════════ */
 window.addEventListener('DOMContentLoaded', () => {
+    // Cargar nombre guardado
+    const savedName = localStorage.getItem('udabol_user_name');
+    if (savedName) {
+        $('topbar-username').textContent = savedName;
+    }
+
     // Si no hay timestamp de inicio, crear uno ahora
     if (!localStorage.getItem('udabol_start_ts')) {
         localStorage.setItem('udabol_start_ts', String(Date.now()));

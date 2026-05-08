@@ -197,6 +197,55 @@
 
         .hidden { display: none !important; }
 
+        /* ── MODAL NOMBRE ── */
+        .name-modal-bg {
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,0.6);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 5000; padding: 16px;
+        }
+        .name-modal {
+            background: #fff; border-radius: 8px;
+            max-width: 400px; width: 100%;
+            box-shadow: 0 12px 38px rgba(0,0,0,0.35);
+            overflow: hidden;
+            animation: nmIn 0.25s ease;
+        }
+        @keyframes nmIn { from{transform:scale(0.9);opacity:0} to{transform:scale(1);opacity:1} }
+        .name-modal-header {
+            background: #004231; color: #fff;
+            padding: 16px 20px; font-size: 1.05em;
+            font-weight: 700; display: flex; align-items: center; gap: 8px;
+        }
+        .name-modal-body {
+            padding: 24px 20px;
+            display: flex; flex-direction: column; gap: 14px;
+        }
+        .name-modal-body label {
+            font-size: 0.9em; color: #444; font-weight: 600;
+        }
+        .name-modal-body input {
+            width: 100%; padding: 10px 12px;
+            border: 1px solid #ccc; border-radius: 4px;
+            font-size: 1em; outline: none;
+        }
+        .name-modal-body input:focus {
+            border-color: #79ba01; box-shadow: 0 0 0 2px rgba(121,186,1,0.2);
+        }
+        .name-modal-footer {
+            padding: 14px 20px; border-top: 1px solid #eee;
+            display: flex; justify-content: flex-end;
+        }
+        .btn-guardar-nombre {
+            background: #79ba01; color: #fff;
+            border: none; border-radius: 4px;
+            padding: 10px 28px; font-size: 0.95em;
+            font-weight: 700; cursor: pointer;
+            display: flex; align-items: center; gap: 6px;
+        }
+        .btn-guardar-nombre:hover { background: #6aa500; }
+        .btn-guardar-nombre:disabled { background: #ccc; cursor: not-allowed; }
+
         
 
         /* ── RESPONSIVE MOBILE ── */
@@ -235,8 +284,8 @@
     </div>
     <div class="topbar-right">
         <div class="topbar-userblock">
-            <span class="topbar-username">LUIS ENRIQUE LEDEZMA LOPEZ</span>
-            <button class="btn-cerrar-sesion">
+            <span class="topbar-username" id="topbar-username">ESTUDIANTE</span>
+            <button class="btn-cerrar-sesion" onclick="cerrarSesion()">
                 <span class="material-icons" style="font-size:13px;vertical-align:middle;">power_settings_new</span>
                 CERRAR SESION
             </button>
@@ -318,14 +367,68 @@
     </div>
 </div>
 
+<!-- MODAL NOMBRE -->
+<div id="name-modal" class="name-modal-bg hidden">
+    <div class="name-modal">
+        <div class="name-modal-header">
+            <span class="material-icons">person</span> Identificación
+        </div>
+        <div class="name-modal-body">
+            <label for="input-nombre">Ingrese su nombre completo:</label>
+            <input type="text" id="input-nombre" placeholder="Ej: LUIS ENRIQUE LEDEZMA LOPEZ" autocomplete="name" maxlength="60">
+        </div>
+        <div class="name-modal-footer">
+            <button class="btn-guardar-nombre" id="btn-guardar-nombre" onclick="guardarNombre()" disabled>
+                <span class="material-icons" style="font-size:16px;">check</span> Ingresar
+            </button>
+        </div>
+    </div>
+</div>
+
 <script>
+const NAME_KEY = 'udabol_user_name';
+
+function guardarNombre() {
+    const input = document.getElementById('input-nombre');
+    const nombre = input.value.trim().toUpperCase();
+    if (!nombre) return;
+    localStorage.setItem(NAME_KEY, nombre);
+    document.getElementById('topbar-username').textContent = nombre;
+    document.getElementById('name-modal').classList.add('hidden');
+}
+
+function cerrarSesion() {
+    localStorage.removeItem(NAME_KEY);
+    localStorage.removeItem('udabol_start_ts');
+    localStorage.removeItem('udabol_exam_started');
+    localStorage.removeItem('udabol_exam_state');
+    window.location.reload();
+}
+
 function comenzarExamen() {
-    // Guardar timestamp de inicio del examen
     localStorage.setItem('udabol_start_ts', String(Date.now()));
     localStorage.setItem('udabol_exam_started', 'true');
-    // Ir al examen
     window.location.href = 'examen.html';
 }
+
+// Al cargar la página
+window.addEventListener('DOMContentLoaded', () => {
+    const savedName = localStorage.getItem(NAME_KEY);
+    if (savedName) {
+        document.getElementById('topbar-username').textContent = savedName;
+    } else {
+        document.getElementById('name-modal').classList.remove('hidden');
+    }
+    // Habilitar botón cuando hay texto
+    const inp = document.getElementById('input-nombre');
+    const btn = document.getElementById('btn-guardar-nombre');
+    inp.addEventListener('input', () => {
+        btn.disabled = inp.value.trim().length === 0;
+    });
+    inp.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && inp.value.trim()) guardarNombre();
+    });
+});
 </script>
 
 <!-- Service Worker -->

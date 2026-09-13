@@ -746,3 +746,434 @@ body {
     .start-exam-table td,
     .start-exam-table th { padding: 6px 5px; }
 }
+
+/* ════════════════════════════════════
+   SELECTOR DE CARRERAS Y MATERIAS (UDABOL)
+════════════════════════════════════ */
+.career-nav-wrap {
+    margin-bottom: 18px;
+}
+.career-nav-title {
+    font-size: 0.86em;
+    font-weight: 700;
+    color: #004231;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.career-tabs-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+.career-tab-btn {
+    background: #f8f9fa;
+    border: 1px solid #d0d7de;
+    border-radius: 4px;
+    padding: 8px 14px;
+    font-size: 0.83em;
+    font-weight: 600;
+    color: #333;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+    text-decoration: none;
+}
+.career-tab-btn:hover {
+    background: #e8f5e1;
+    border-color: #79ba01;
+    color: #004231;
+}
+.career-tab-btn.active {
+    background: #004231;
+    border-color: #004231;
+    color: #ffffff;
+    box-shadow: 0 2px 6px rgba(0, 66, 49, 0.25);
+}
+.career-tab-btn.active .career-tab-icon {
+    color: #79ba01;
+}
+.career-tab-icon {
+    font-size: 17px !important;
+    color: #555;
+    vertical-align: middle;
+}
+.career-tab-btn.active .career-tab-icon {
+    color: #79ba01;
+}
+.career-info-badge {
+    background: #f2f8f0;
+    border-left: 3px solid #79ba01;
+    border-top: 1px solid #e1eedf;
+    border-right: 1px solid #e1eedf;
+    border-bottom: 1px solid #e1eedf;
+    padding: 9px 14px;
+    font-size: 0.83em;
+    color: #004231;
+    border-radius: 0 4px 4px 0;
+    margin-bottom: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+.career-info-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.career-badge-count {
+    background: #79ba01;
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.76em;
+    padding: 2px 9px;
+    border-radius: 12px;
+    letter-spacing: 0.3px;
+}
+.materia-tag-code {
+    display: inline-block;
+    background: #eef2f5;
+    border: 1px solid #d8dee4;
+    color: #004231;
+    font-weight: 700;
+    font-size: 0.85em;
+    padding: 1px 6px;
+    border-radius: 3px;
+    margin-right: 4px;
+}
+.modal-score-box {
+    background: #f4f9f2;
+    border: 1px solid #cce5c7;
+    border-radius: 6px;
+    padding: 14px;
+    margin: 12px 0;
+    text-align: center;
+}
+.modal-score-num {
+    font-size: 1.8em;
+    font-weight: 700;
+    color: #004231;
+    margin: 4px 0;
+}
+.modal-score-sub {
+    font-size: 0.86em;
+    color: #555;
+}
+.btn-volver-materias {
+    background: #004231;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    padding: 8px 16px;
+    font-size: 0.88em;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+}
+.btn-volver-materias:hover {
+    background: #003023;
+}
+
+/* ════════════════════════════════════
+   DROPDOWN DE CARRERAS Y SWITCHES (TOPBAR)
+════════════════════════════════════ */
+.topbar-actions-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+}
+.dropdown-anchor {
+    position: relative;
+    display: inline-block;
+}
+.btn-select-carrera {
+    background: transparent;
+    border: 1px solid #6aaf6e;
+    color: #a8d5a2;
+    border-radius: 3px;
+    padding: 3px 8px;
+    font-size: 0.73em;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+}
+.btn-select-carrera:hover {
+    background: rgba(121, 186, 1, 0.15);
+    border-color: #a8d5a2;
+    color: #ffffff;
+}
+
+/* Selector de Carreras tipo Cuadrícula / Pills */
+.career-pill-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
+    margin-top: 4px;
+}
+.career-pill-btn {
+    background: #f7faf6;
+    border: 1.5px solid #d2e4ce;
+    border-radius: 5px;
+    padding: 8px 10px;
+    font-size: 0.82em;
+    font-weight: 600;
+    color: #004231;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    text-align: left;
+    transition: all 0.15s ease;
+}
+.career-pill-btn:hover {
+    background: #e8f5e2;
+    border-color: #79ba01;
+}
+.career-pill-btn.active {
+    background: #004231;
+    border-color: #004231;
+    color: #ffffff;
+    box-shadow: 0 2px 6px rgba(0, 66, 49, 0.25);
+}
+.career-pill-btn.active .career-pill-icon {
+    color: #79ba01;
+}
+.career-pill-icon {
+    font-size: 17px !important;
+    color: #555;
+    flex-shrink: 0;
+}
+@media (max-width: 500px) {
+    .career-pill-grid {
+        grid-template-columns: 1fr;
+    }
+}
+.config-dropdown {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 8px);
+    width: 440px;
+    max-width: 92vw;
+    max-height: 80vh;
+    background: #ffffff;
+    border: 1px solid #c5e1a5;
+    border-radius: 8px;
+    box-shadow: 0 12px 36px rgba(0, 40, 20, 0.28);
+    z-index: 4000;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    color: #333333;
+    animation: dropSlide 0.2s ease-out;
+}
+@keyframes dropSlide {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.config-dropdown-header {
+    background: #004231;
+    color: #ffffff;
+    padding: 11px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.config-dropdown-title {
+    font-size: 0.88em;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    letter-spacing: 0.3px;
+}
+.config-btn-close {
+    background: transparent;
+    border: none;
+    color: #a8d5a2;
+    cursor: pointer;
+    padding: 2px;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+}
+.config-btn-close:hover {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.15);
+}
+.config-dropdown-body {
+    padding: 14px 16px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+.config-section-label {
+    font-size: 0.76em;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #004231;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.udabol-career-select {
+    width: 100%;
+    padding: 7px 10px;
+    border: 1.5px solid #79ba01;
+    border-radius: 4px;
+    font-size: 0.86em;
+    font-weight: 600;
+    color: #004231;
+    background: #f8fbf6;
+    outline: none;
+    cursor: pointer;
+}
+.udabol-career-select:focus {
+    box-shadow: 0 0 0 2px rgba(121, 186, 1, 0.3);
+}
+.config-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.78em;
+    color: #666;
+    padding: 2px 0 6px 0;
+    border-bottom: 1px solid #eee;
+}
+.config-link-btn {
+    background: none;
+    border: none;
+    color: #004231;
+    font-weight: 700;
+    font-size: 0.88em;
+    cursor: pointer;
+    text-decoration: underline;
+    padding: 2px 4px;
+}
+.config-link-btn:hover {
+    color: #79ba01;
+}
+.config-subjects-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.config-subject-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 10px;
+    background: #f9fbf9;
+    border: 1px solid #e2ece0;
+    border-radius: 5px;
+    transition: background 0.15s ease;
+}
+.config-subject-row:hover {
+    background: #f0f7ef;
+}
+.config-subject-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    max-width: calc(100% - 50px);
+}
+.config-subject-title {
+    font-size: 0.83em;
+    font-weight: 600;
+    color: #222;
+    line-height: 1.25;
+}
+.config-subject-sub {
+    font-size: 0.74em;
+    color: #777;
+}
+
+/* Switches */
+.udabol-switch {
+    position: relative;
+    display: inline-block;
+    width: 38px;
+    height: 20px;
+    flex-shrink: 0;
+}
+.udabol-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+.udabol-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: #d1d5db;
+    transition: .22s;
+    border-radius: 20px;
+}
+.udabol-slider:before {
+    position: absolute;
+    content: "";
+    height: 14px;
+    width: 14px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .22s;
+    border-radius: 50%;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.25);
+}
+.udabol-switch input:checked + .udabol-slider {
+    background-color: #79ba01;
+}
+.udabol-switch input:checked + .udabol-slider:before {
+    transform: translateX(18px);
+}
+
+.config-dropdown-footer {
+    padding: 9px 16px;
+    background: #f8faf8;
+    border-top: 1px solid #e5ede3;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.btn-aplicar-config {
+    background: #79ba01;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    padding: 5px 14px;
+    font-size: 0.82em;
+    font-weight: 700;
+    cursor: pointer;
+}
+.btn-aplicar-config:hover {
+    background: #6aa500;
+}
+
+@media (max-width: 600px) {
+    .config-dropdown {
+        width: 310px;
+        right: -60px;
+    }
+}
+

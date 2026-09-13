@@ -6,13 +6,15 @@
     <title>Lista de Exámenes | UDABOL</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="stile.css">
+    <script src="data/examData.js"></script>
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
             font-size: 14px;
             background: #ffffff;
-            color: #ffffff;
+            color: #333333;
             min-height: 100vh;
         }
 
@@ -285,10 +287,65 @@
     <div class="topbar-right">
         <div class="topbar-userblock">
             <span class="topbar-username" id="topbar-username">ESTUDIANTE</span>
-            <button class="btn-cerrar-sesion" onclick="cerrarSesion()">
-                <span class="material-icons" style="font-size:13px;vertical-align:middle;">power_settings_new</span>
-                CERRAR SESION
-            </button>
+            <div class="topbar-actions-row">
+                <div class="dropdown-anchor">
+                    <button class="btn-select-carrera" id="btn-select-carrera" onclick="toggleConfigDropdown(event)" title="Configurar Carrera y Materias a mostrar">
+                        <span class="material-icons" style="font-size:13px;vertical-align:middle;">tune</span>
+                        <span id="btn-career-name">Materias</span>
+                        <span class="material-icons" style="font-size:13px;vertical-align:middle;">arrow_drop_down</span>
+                    </button>
+                    <!-- PANEL DESPLEGABLE CON FORMULARIO ANIDADO Y SWITCHES -->
+                    <div id="config-dropdown" class="config-dropdown hidden" onclick="event.stopPropagation()">
+                        <div class="config-dropdown-header">
+                            <span class="config-dropdown-title">
+                                <span class="material-icons" style="font-size:17px;vertical-align:middle;">tune</span>
+                                CARRERA Y MATERIAS
+                            </span>
+                            <button class="config-btn-close" onclick="closeConfigDropdown()" title="Cerrar">
+                                <span class="material-icons" style="font-size:18px;">close</span>
+                            </button>
+                        </div>
+                        <div class="config-dropdown-body">
+                            <div>
+                                <div class="config-section-label">
+                                    <span class="material-icons" style="font-size:15px;vertical-align:middle;">school</span>
+                                    1. Seleccionar Carrera:
+                                </div>
+                                <div class="career-pill-grid" id="career-pill-grid">
+                                    <!-- 6 Carreras renderizadas interactivamente -->
+                                </div>
+                            </div>
+                            <div>
+                                <div class="config-section-label" style="margin-top:4px;">
+                                    <span class="material-icons" style="font-size:15px;vertical-align:middle;">toggle_on</span>
+                                    2. Materias a mostrar en la tabla:
+                                </div>
+                                <div class="config-toolbar">
+                                    <span>Visibles: <strong id="enabled-subjects-count" style="color:#004231;">5</strong> de <span id="total-career-subjects">5</span></span>
+                                    <div>
+                                        <button type="button" class="config-link-btn" onclick="setAllCurrentSubjects(true)">Todas</button>
+                                        <span style="color:#bbb;">|</span>
+                                        <button type="button" class="config-link-btn" onclick="setAllCurrentSubjects(false)">Ninguna</button>
+                                    </div>
+                                </div>
+                                <div class="config-subjects-list" id="config-subjects-list">
+                                    <!-- Switches generados por JS -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="config-dropdown-footer">
+                            <span style="font-size:0.75em;color:#777;">Los cambios se aplican al instante</span>
+                            <button type="button" class="btn-aplicar-config" onclick="closeConfigDropdown()">
+                                LISTO
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn-cerrar-sesion" onclick="cerrarSesion()">
+                    <span class="material-icons" style="font-size:13px;vertical-align:middle;">power_settings_new</span>
+                    CERRAR SESION
+                </button>
+            </div>
         </div>
     </div>
 </div>
@@ -329,6 +386,7 @@
             <div class="start-important">
                 <strong>IMPORTANTE:</strong> Solo tiene un solo intento en todo el periodo de examen PREGRADO , cuando este seguro(a) ingrese a darlo.
             </div>
+
             <p class="start-horario">
                 <span class="material-icons" style="font-size:16px;vertical-align:middle;">schedule</span>
                 Debe iniciar los siguientes exámenes antes de que termine el tiempo disponible en el horario de <strong>01:00 a 22:00</strong> indicado en cada uno:
@@ -346,20 +404,8 @@
                             <th></th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>Ingeniería de Sistemas</td>
-                            <td>Sede Oruro - Semestre V - Nuevo - ISI-311-13721: Análisis y diseño de sistemas II - NM</td>
-                            <td>A</td>
-                            <td>1P-1-2026-10117327: Examen Primer Parcial 1-2026</td>
-                            <td>20</td>
-                            <td>40 minutos</td>
-                            <td>
-                                <button class="btn-comenzar" onclick="comenzarExamen()">
-                                    <span class="material-icons" style="font-size:14px;vertical-align:middle;">check</span> Comenzar
-                                </button>
-                            </td>
-                        </tr>
+                    <tbody id="exam-table-body">
+                        <!-- Materias filtradas renderizadas dinámicamente -->
                     </tbody>
                 </table>
             </div>
@@ -387,6 +433,220 @@
 
 <script>
 const NAME_KEY = 'udabol_user_name';
+const CAREER_KEY = 'udabol_selected_career_id';
+const SUBJECT_KEY = 'udabol_selected_subject_id';
+const VISIBLE_KEY = 'udabol_visible_subjects';
+
+let currentCareerId = localStorage.getItem(CAREER_KEY) || 'sistemas';
+let visibleSubjectsMap = {};
+
+try {
+    const raw = localStorage.getItem(VISIBLE_KEY);
+    visibleSubjectsMap = raw ? JSON.parse(raw) : {};
+} catch(e) { visibleSubjectsMap = {}; }
+
+function isSubjectVisible(subjectId) {
+    if (visibleSubjectsMap[subjectId] !== undefined) {
+        return visibleSubjectsMap[subjectId];
+    }
+    return true; // Por defecto visible
+}
+
+function saveVisibleSubjects() {
+    localStorage.setItem(VISIBLE_KEY, JSON.stringify(visibleSubjectsMap));
+}
+
+/* ── Control del Dropdown ── */
+function toggleConfigDropdown(e) {
+    if (e) e.stopPropagation();
+    const dropdown = document.getElementById('config-dropdown');
+    dropdown.classList.toggle('hidden');
+    if (!dropdown.classList.contains('hidden')) {
+        renderCareerPills();
+        renderDropdownSubjectSwitches();
+    }
+}
+
+function closeConfigDropdown() {
+    const dropdown = document.getElementById('config-dropdown');
+    if (dropdown) dropdown.classList.add('hidden');
+}
+
+// Cerrar si se hace clic fuera del menú
+document.addEventListener('click', (e) => {
+    const dropdown = document.getElementById('config-dropdown');
+    const btn = document.getElementById('btn-select-carrera');
+    if (dropdown && !dropdown.classList.contains('hidden')) {
+        if (!dropdown.contains(e.target) && (!btn || !btn.contains(e.target))) {
+            closeConfigDropdown();
+        }
+    }
+});
+
+function getCareersList() {
+    if (typeof UDABOL_EXAM_DATA !== 'undefined' && UDABOL_EXAM_DATA && UDABOL_EXAM_DATA.carreras) {
+        return UDABOL_EXAM_DATA.carreras;
+    }
+    if (typeof window !== 'undefined' && window.UDABOL_EXAM_DATA && window.UDABOL_EXAM_DATA.carreras) {
+        return window.UDABOL_EXAM_DATA.carreras;
+    }
+    return [];
+}
+
+/* ── Renderizado de Carreras (Pills Interactivas) ── */
+function renderCareerPills() {
+    const grid = document.getElementById('career-pill-grid');
+    const carreras = getCareersList();
+    if (!grid || !carreras.length) return;
+
+    grid.innerHTML = '';
+    carreras.forEach(carrera => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'career-pill-btn' + (carrera.id === currentCareerId ? ' active' : '');
+        btn.innerHTML = `
+            <span class="material-icons career-pill-icon">${carrera.icono}</span>
+            <span>${carrera.nombre}</span>
+        `;
+        btn.onclick = () => selectCareer(carrera.id);
+        grid.appendChild(btn);
+    });
+}
+
+function selectCareer(newCareerId) {
+    currentCareerId = newCareerId;
+    localStorage.setItem(CAREER_KEY, newCareerId);
+    renderCareerPills();
+    renderDropdownSubjectSwitches();
+    renderSubjectsTable();
+}
+
+/* ── Switches de materias en Dropdown ── */
+function renderDropdownSubjectSwitches() {
+    const list = document.getElementById('config-subjects-list');
+    const carrera = getCareerById(currentCareerId);
+    if (!list || !carrera) return;
+
+    list.innerHTML = '';
+    let visibleCount = 0;
+
+    carrera.subjects.forEach(subject => {
+        const isChecked = isSubjectVisible(subject.id);
+        if (isChecked) visibleCount++;
+
+        const row = document.createElement('div');
+        row.className = 'config-subject-row';
+        row.innerHTML = `
+            <div class="config-subject-info">
+                <span class="config-subject-title">
+                    <span class="materia-tag-code">${subject.codigo}</span>
+                    ${subject.nombre}
+                </span>
+                <span class="config-subject-sub">${subject.semestre} – Grupo ${subject.grupo}</span>
+            </div>
+            <label class="udabol-switch" title="Mostrar u ocultar materia en la lista">
+                <input type="checkbox" id="switch-${subject.id}" ${isChecked ? 'checked' : ''} onchange="onToggleSubject('${subject.id}', this.checked)">
+                <span class="udabol-slider"></span>
+            </label>
+        `;
+        list.appendChild(row);
+    });
+
+    const countEl = document.getElementById('enabled-subjects-count');
+    const totalEl = document.getElementById('total-career-subjects');
+    if (countEl) countEl.textContent = visibleCount;
+    if (totalEl) totalEl.textContent = carrera.subjects.length;
+}
+
+function onToggleSubject(subjectId, isChecked) {
+    visibleSubjectsMap[subjectId] = isChecked;
+    saveVisibleSubjects();
+
+    const carrera = getCareerById(currentCareerId);
+    if (carrera) {
+        let visibleCount = 0;
+        carrera.subjects.forEach(s => {
+            if (isSubjectVisible(s.id)) visibleCount++;
+        });
+        const countEl = document.getElementById('enabled-subjects-count');
+        if (countEl) countEl.textContent = visibleCount;
+    }
+
+    renderSubjectsTable();
+}
+
+function setAllCurrentSubjects(enable) {
+    const carrera = getCareerById(currentCareerId);
+    if (!carrera) return;
+
+    carrera.subjects.forEach(s => {
+        visibleSubjectsMap[s.id] = enable;
+    });
+    saveVisibleSubjects();
+    renderDropdownSubjectSwitches();
+    renderSubjectsTable();
+}
+
+/* ── Renderizado de la tabla de exámenes ── */
+function renderSubjectsTable() {
+    const tbody = document.getElementById('exam-table-body');
+    const carrera = getCareerById(currentCareerId);
+    if (!tbody || !carrera) return;
+
+    // Mantener el botón de la barra superior discreto
+    const btnName = document.getElementById('btn-career-name');
+    if (btnName) btnName.textContent = 'Materias';
+
+    tbody.innerHTML = '';
+    const visibleSubjects = carrera.subjects.filter(s => isSubjectVisible(s.id));
+
+    if (visibleSubjects.length === 0) {
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="7" style="text-align:center; padding: 32px 14px; background:#fafbfa; color:#666;">
+                    <span class="material-icons" style="font-size:34px; color:#bbb; display:block; margin-bottom:6px;">filter_alt_off</span>
+                    No hay materias habilitadas para mostrar en <strong>${carrera.nombre}</strong>.<br>
+                    <button type="button" class="config-link-btn" onclick="toggleConfigDropdown(event)" style="margin-top:8px; font-size:0.95em;">
+                        Abrir menú para habilitar materias
+                    </button>
+                </td>
+            </tr>
+        `;
+        return;
+    }
+
+    visibleSubjects.forEach(subject => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td><strong>${carrera.nombre}</strong></td>
+            <td>
+                <span class="materia-tag-code">${subject.codigo}</span>
+                ${subject.sede} - ${subject.semestre} - ${subject.siglaCompleta}
+            </td>
+            <td>${subject.grupo}</td>
+            <td>${subject.examen}</td>
+            <td>${subject.preguntasCount}</td>
+            <td>${subject.duracion}</td>
+            <td>
+                <button class="btn-comenzar" onclick="comenzarExamenSubject('${subject.id}')">
+                    <span class="material-icons" style="font-size:14px;vertical-align:middle;">check</span> Comenzar
+                </button>
+            </td>
+        `;
+        tbody.appendChild(tr);
+    });
+}
+
+function comenzarExamenSubject(subjectId) {
+    localStorage.setItem(SUBJECT_KEY, subjectId);
+    localStorage.setItem(CAREER_KEY, currentCareerId);
+    localStorage.setItem('udabol_start_ts', String(Date.now()));
+    localStorage.setItem('udabol_exam_started', 'true');
+    // Limpiar estado previo para un nuevo intento limpio
+    localStorage.removeItem('udabol_exam_state_' + subjectId);
+    localStorage.removeItem('udabol_exam_state');
+    window.location.href = 'examen.html';
+}
 
 function guardarNombre() {
     const input = document.getElementById('input-nombre');
@@ -402,17 +662,16 @@ function cerrarSesion() {
     localStorage.removeItem('udabol_start_ts');
     localStorage.removeItem('udabol_exam_started');
     localStorage.removeItem('udabol_exam_state');
+    localStorage.removeItem(SUBJECT_KEY);
     window.location.reload();
-}
-
-function comenzarExamen() {
-    localStorage.setItem('udabol_start_ts', String(Date.now()));
-    localStorage.setItem('udabol_exam_started', 'true');
-    window.location.href = 'examen.html';
 }
 
 // Al cargar la página
 window.addEventListener('DOMContentLoaded', () => {
+    // Inicializar dropdown y materias
+    renderCareerPills();
+    renderSubjectsTable();
+
     const savedName = localStorage.getItem(NAME_KEY);
     if (savedName) {
         document.getElementById('topbar-username').textContent = savedName;
